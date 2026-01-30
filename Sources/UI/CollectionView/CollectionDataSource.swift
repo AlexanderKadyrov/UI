@@ -21,7 +21,7 @@ final public class CollectionDataSource: UICollectionViewDiffableDataSource<Coll
     }
     
     private func bind() {
-        adapter?.refreshSnapshotAction
+        adapter?.snapshotPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let self else { return }
