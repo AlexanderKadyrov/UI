@@ -7,7 +7,7 @@ public class CollectionDataSourceAdapter {
     private var cancellables: [AnyCancellable] = []
     
     @Published private var snapshot = NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCellViewModel>()
-    var refreshSnapshotAction: Published<NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCellViewModel>>.Publisher {
+    var snapshotPublisher: Published<NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCellViewModel>>.Publisher {
         return $snapshot
     }
     
@@ -22,7 +22,7 @@ public class CollectionDataSourceAdapter {
     public func append(sections: [CollectionSectionViewModel]) {
         snapshot.appendSections(sections)
         for element in sections {
-            element.appendCellViewModelsAction
+            element.cellViewModelsSubject
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] cellViewModels in
                     guard let self else { return }
