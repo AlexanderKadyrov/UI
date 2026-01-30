@@ -3,14 +3,14 @@ import Combine
 
 open class CollectionSectionViewModel: Hashable, @unchecked Sendable {
     
-    let appendCellViewModelsAction = PassthroughSubject<[CollectionCellViewModel], Never>()
+    let cellViewModelsSubject = PassthroughSubject<[CollectionCellViewModel], Never>()
     
     open var id: String {
         return String(describing: self)
     }
     
     public func append(cellViewModels: [CollectionCellViewModel]) {
-        appendCellViewModelsAction.send(cellViewModels)
+        cellViewModelsSubject.send(cellViewModels)
     }
     
     open func hash(into hasher: inout Hasher) {
