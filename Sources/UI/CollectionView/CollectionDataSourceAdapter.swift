@@ -2,10 +2,10 @@ import Foundation
 import Combine
 import UIKit
 
-public class DataSourceViewModel {
+public class CollectionDataSourceAdapter {
     
-    @Published private var snapshot = NSDiffableDataSourceSnapshot<Int, CellViewModel>()
-    var snapshotPublisher: Published<NSDiffableDataSourceSnapshot<Int, CellViewModel>>.Publisher {
+    @Published private var snapshot = NSDiffableDataSourceSnapshot<Int, CollectionCellViewModel>()
+    var snapshotPublisher: Published<NSDiffableDataSourceSnapshot<Int, CollectionCellViewModel>>.Publisher {
         return $snapshot
     }
     
@@ -17,7 +17,7 @@ public class DataSourceViewModel {
         
     }
     
-    public func append(cellViewModels: [CellViewModel], section: Int) {
+    public func append(cellViewModels: [CollectionCellViewModel], section: Int) {
         var new = snapshot
         new.appendSections([section])
         new.appendItems(cellViewModels, toSection: section)

@@ -2,11 +2,11 @@ import Foundation
 import Combine
 import UIKit
 
-final public class DataSource: UICollectionViewDiffableDataSource<Int, CellViewModel> {
+final public class CollectionDataSource: UICollectionViewDiffableDataSource<Int, CollectionCellViewModel> {
     
     private var cancellables: [AnyCancellable] = []
     
-    public var viewModel: DataSourceViewModel? {
+    public var adapter: CollectionDataSourceAdapter? {
         didSet {
             bind()
         }
@@ -14,14 +14,14 @@ final public class DataSource: UICollectionViewDiffableDataSource<Int, CellViewM
     
     public init(collectionView: UICollectionView) {
         super.init(collectionView: collectionView) { collectionView, indexPath, viewModel in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.cellIdentifier, for: indexPath) as? (any CellView)
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: viewModel.cellIdentifier, for: indexPath) as? (any CollectionCellView)
             cell?.configure(viewModel: viewModel)
             return cell
         }
     }
     
     private func bind() {
-        viewModel?.snapshotPublisher
+        adapter?.snapshotPublisher
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let self else { return }
