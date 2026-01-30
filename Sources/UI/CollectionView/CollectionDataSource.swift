@@ -2,7 +2,7 @@ import Foundation
 import Combine
 import UIKit
 
-final public class CollectionDataSource: UICollectionViewDiffableDataSource<Int, CollectionCellViewModel> {
+final public class CollectionDataSource: UICollectionViewDiffableDataSource<CollectionSectionViewModel, CollectionCellViewModel> {
     
     private var cancellables: [AnyCancellable] = []
     
@@ -21,7 +21,7 @@ final public class CollectionDataSource: UICollectionViewDiffableDataSource<Int,
     }
     
     private func bind() {
-        adapter?.snapshotPublisher
+        adapter?.refreshSnapshotAction
             .receive(on: DispatchQueue.main)
             .sink { [weak self] snapshot in
                 guard let self else { return }

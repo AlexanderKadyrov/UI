@@ -13,7 +13,7 @@ open class CollectionCellViewModel: Hashable, @unchecked Sendable {
     }
     
     open func hash(into hasher: inout Hasher) {
-        hasher.combine(cellIdentifier)
+        hasher.combine(id)
     }
     
     public static func == (lhs: CollectionCellViewModel, rhs: CollectionCellViewModel) -> Bool {

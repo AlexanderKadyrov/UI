@@ -4,8 +4,10 @@ import UIKit
 
 public class CollectionDataSourceAdapter {
     
-    @Published private var snapshot = NSDiffableDataSourceSnapshot<Int, CollectionCellViewModel>()
-    var snapshotPublisher: Published<NSDiffableDataSourceSnapshot<Int, CollectionCellViewModel>>.Publisher {
+    private var cancellables: [AnyCancellable] = []
+    
+    @Published private var snapshot = NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCellViewModel>()
+    var refreshSnapshotAction: Published<NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCellViewModel>>.Publisher {
         return $snapshot
     }
     
@@ -17,10 +19,16 @@ public class CollectionDataSourceAdapter {
         
     }
     
-    public func append(cellViewModels: [CollectionCellViewModel], section: Int) {
-        var new = snapshot
-        new.appendSections([section])
-        new.appendItems(cellViewModels, toSection: section)
-        snapshot = new
+    public func append(sections: [CollectionSectionViewModel]) {
+        snapshot.appendSections(sections)
+        for element in sections {
+            element.appendCellViewModelsAction
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] cellViewModels in
+                    guard let self else { return }
+                    snapshot.appendItems(cellViewModels, toSection: element)
+                }
+                .store(in: &cancellables)
+        }
     }
 }
