@@ -1,6 +1,6 @@
 import Foundation
 
-open class CellViewModel: Hashable, @unchecked Sendable {
+open class CollectionCellViewModel: Hashable, @unchecked Sendable {
     
     public let cellIdentifier: String
     
@@ -13,10 +13,10 @@ open class CellViewModel: Hashable, @unchecked Sendable {
     }
     
     open func hash(into hasher: inout Hasher) {
-        hasher.combine(cellIdentifier)
+        hasher.combine(id)
     }
     
-    public static func == (lhs: CellViewModel, rhs: CellViewModel) -> Bool {
+    public static func == (lhs: CollectionCellViewModel, rhs: CollectionCellViewModel) -> Bool {
         return lhs.hashValue == rhs.hashValue
     }
 }
