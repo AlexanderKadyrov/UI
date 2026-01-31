@@ -21,30 +21,14 @@ public class CollectionDataSourceAdapter {
     
     public func append(sections: [CollectionSectionViewModel]) {
         snapshot.appendSections(sections)
-        for element in sections {
-            element.$cellViewModels
+        for section in sections {
+            section.$cellViewModels
                 .receive(on: DispatchQueue.main)
                 .sink { [weak self] cellViewModels in
                     guard let self else { return }
-                    refresh(cellViewModels: cellViewModels, section: element)
+                    snapshot.apply(cellViewModels: cellViewModels, section: section)
                 }
                 .store(in: &cancellables)
         }
-    }
-    
-    private func refresh(cellViewModels: [CollectionCellViewModel], section: CollectionSectionViewModel) {
-        let oldCellViewModels = snapshot.itemIdentifiers(inSection: section)
-        let difference = cellViewModels.difference(from: oldCellViewModels)
-        var new = snapshot
-        for change in difference {
-            switch change {
-            case .insert(_, let element, _):
-                guard new.indexOfItem(element) == nil else { continue }
-                new.appendItems([element], toSection: section)
-            case .remove(_, let element, _):
-                new.deleteItems([element])
-            }
-        }
-        snapshot = new
     }
 }
