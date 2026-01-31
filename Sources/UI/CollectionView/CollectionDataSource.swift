@@ -18,6 +18,7 @@ final public class CollectionDataSource: UICollectionViewDiffableDataSource<Coll
             cell?.configure(viewModel: viewModel)
             return cell
         }
+        collectionView.register(PageableCollectionCellView.self, forCellWithReuseIdentifier: "PageableCollectionCellView")
     }
     
     private func bind() {
