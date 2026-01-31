@@ -8,16 +8,25 @@ open class PageableCollectionSectionViewModel: CollectionSectionViewModel, @unch
         return pageableSubject.eraseToAnyPublisher()
     }
     
-    public override func append(cellViewModels: [CollectionCellViewModel]) {
-        var newCellViewModels = self.cellViewModels
-        newCellViewModels.removeAll { $0 is PageableCollectionCellViewModel }
-        newCellViewModels += cellViewModels
-        newCellViewModels.append(
+    public var pageableAvailable: Bool {
+        false
+    }
+    
+    public override func append(cellViewModels models: [CollectionCellViewModel]) {
+        var newCellViewModels = cellViewModels
+        newCellViewModels += models
+        appendPageableIfNeeded(cellViewModels: &newCellViewModels)
+        super.append(cellViewModels: newCellViewModels)
+    }
+    
+    private func appendPageableIfNeeded(cellViewModels models: inout [CollectionCellViewModel]) {
+        models.removeAll { $0 is PageableCollectionCellViewModel }
+        guard pageableAvailable else { return }
+        models.append(
             PageableCollectionCellViewModel { [weak self] in
                 guard let self else { return }
                 pageableSubject.send(())
             }
         )
-        super.append(cellViewModels: newCellViewModels)
     }
 }
