@@ -8,7 +8,7 @@ open class PageableCollectionSectionViewModel: CollectionSectionViewModel, @unch
         return pageableSubject.eraseToAnyPublisher()
     }
     
-    public var pageableAvailable: Bool {
+    open var pageableAvailable: Bool {
         false
     }
     
