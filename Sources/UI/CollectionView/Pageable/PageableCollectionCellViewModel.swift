@@ -7,10 +7,6 @@ final class PageableCollectionCellViewModel: CollectionCellViewModel, @unchecked
     
     private let content = UUID().uuidString
     
-    override var id: String {
-        return content
-    }
-    
     init(completionHandler: @escaping (() -> Void)) {
         self.completionHandler = completionHandler
         super.init(cellIdentifier: "PageableCollectionCellView")
