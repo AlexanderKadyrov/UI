@@ -13,18 +13,8 @@ open class CollectionSectionViewModel: Hashable, @unchecked Sendable {
         
     }
     
-    public func append(cellViewModels: [CollectionCellViewModel]) {
-        var oldCellViewModels = self.cellViewModels
-        let difference = cellViewModels.difference(from: oldCellViewModels)
-        for change in difference {
-            switch change {
-            case .insert(_, let element, _):
-                oldCellViewModels.append(element)
-            case .remove(_, let element, _):
-                oldCellViewModels.removeAll(where: { $0 == element })
-            }
-        }
-        self.cellViewModels = oldCellViewModels
+    public func append(cellViewModels models: [CollectionCellViewModel]) {
+        cellViewModels.union(cellViewModels: models)
     }
     
     open func hash(into hasher: inout Hasher) {
