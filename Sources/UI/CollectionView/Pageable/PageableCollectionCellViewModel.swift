@@ -3,7 +3,7 @@ import Combine
 
 final class PageableCollectionCellViewModel: CollectionCellViewModel, @unchecked Sendable {
     
-    private var completionHandler: (() -> Void)?
+    private var completionHandler: (() -> Void)
     
     private let content = UUID().uuidString
     
@@ -11,13 +11,13 @@ final class PageableCollectionCellViewModel: CollectionCellViewModel, @unchecked
         return content
     }
     
-    init(completionHandler: (() -> Void)?) {
+    init(completionHandler: @escaping (() -> Void)) {
         self.completionHandler = completionHandler
         super.init(cellIdentifier: "PageableCollectionCellView")
     }
     
     func pageable() {
-        completionHandler?()
+        completionHandler()
     }
     
     override func hash(into hasher: inout Hasher) {
