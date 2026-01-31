@@ -8,7 +8,6 @@ extension NSDiffableDataSourceSnapshot<CollectionSectionViewModel, CollectionCel
         for change in difference {
             switch change {
             case .insert(_, let element, _):
-                guard snapshot.indexOfItem(element) == nil else { continue }
                 snapshot.appendItems([element], toSection: section)
             case .remove(_, let element, _):
                 snapshot.deleteItems([element])
