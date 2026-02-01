@@ -31,4 +31,9 @@ public class CollectionDataSourceAdapter {
                 .store(in: &cancellables)
         }
     }
+    
+    func didSelectItemAt(indexPath: IndexPath) {
+        guard let section = snapshot.sectionIdentifiers[safe: indexPath.section] else { return }
+        section.didSelectItemAt(index: indexPath.row)
+    }
 }
