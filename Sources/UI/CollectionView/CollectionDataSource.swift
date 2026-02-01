@@ -19,6 +19,7 @@ final public class CollectionDataSource: UICollectionViewDiffableDataSource<Coll
             return cell
         }
         collectionView.register(PageableCollectionCellView.self, forCellWithReuseIdentifier: "PageableCollectionCellView")
+        collectionView.delegate = self
     }
     
     private func bind() {
@@ -29,5 +30,11 @@ final public class CollectionDataSource: UICollectionViewDiffableDataSource<Coll
                 apply(snapshot)
             }
             .store(in: &cancellables)
+    }
+}
+
+extension CollectionDataSource: UICollectionViewDelegate {
+    public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        adapter?.didSelectItemAt(indexPath: indexPath)
     }
 }

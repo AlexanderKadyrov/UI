@@ -17,6 +17,14 @@ open class CollectionSectionViewModel: Hashable, @unchecked Sendable {
         cellViewModels.union(cellViewModels: models)
     }
     
+    public func cellViewModelAt<T: CollectionCellViewModel>(index: Int) -> T? {
+        return cellViewModels[safe: index] as? T
+    }
+    
+    open func didSelectItemAt(index: Int) {
+        
+    }
+    
     open func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
